@@ -1,0 +1,337 @@
+/* Atlas anatomique — navigation douce, cartes roses animées. */
+
+.atlas-page {
+  max-width: 1220px;
+}
+
+.atlas-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 1rem;
+  padding: 1.5rem 0 2.5rem;
+}
+
+.atlas-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.atlas-region-nav {
+  position: sticky;
+  top: 1rem;
+  overflow: hidden;
+  padding: 0.65rem;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow) !important;
+  border-radius: 26px !important;
+}
+
+.atlas-nav-eyebrow {
+  padding: 0.9rem 0.85rem 0.75rem;
+  color: var(--ink-soft);
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+}
+
+.atlas-region-button {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 50px;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--rose-50);
+  border-radius: 16px;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  text-align: left;
+  transition: background 150ms ease, color 150ms ease, transform 0.3s var(--spring);
+}
+
+.atlas-region-button:hover {
+  background: var(--rose-50);
+}
+
+.atlas-region-button:active {
+  transform: scale(0.96);
+}
+
+.atlas-region-button.active {
+  background: var(--grad-btn);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(242, 84, 143, 0.3);
+}
+
+.atlas-region-index {
+  color: var(--rose-300);
+  font-family: var(--font-title);
+  font-size: 0.83rem;
+}
+
+.atlas-region-button.active .atlas-region-index,
+.atlas-region-button.active small {
+  color: rgba(255,255,255,0.85);
+}
+
+.atlas-region-button small {
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+}
+
+.atlas-3d-note {
+  display: flex;
+  gap: 0.65rem;
+  margin: 0.9rem 0.35rem 0.25rem;
+  padding: 0.85rem;
+  border-radius: 16px;
+  background: var(--lilac-soft);
+  color: #6b3fb0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.atlas-3d-note svg {
+  flex: 0 0 auto;
+}
+
+.atlas-main {
+  min-width: 0;
+}
+
+.atlas-toolbar {
+  display: grid;
+  gap: 1.1rem;
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 26px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.atlas-filter-block {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.atlas-filter-label,
+.atlas-results-kicker {
+  color: var(--ink-soft);
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+}
+
+.atlas-system-tabs {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.atlas-system-tabs .MuiToggleButton-root {
+  min-height: 38px;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--line) !important;
+  border-radius: 999px !important;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  text-transform: none;
+}
+
+.atlas-system-tabs .Mui-selected {
+  background: var(--grad-btn) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.atlas-secondary-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.atlas-secondary-filters .MuiChip-root {
+  min-height: 38px;
+}
+
+.atlas-results-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.atlas-results-kicker {
+  margin-bottom: 0.35rem !important;
+}
+
+.atlas-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.structure-card {
+  position: relative;
+  border-color: var(--line);
+  border-radius: 24px;
+  animation: rise 0.6s var(--ease-out) backwards;
+}
+
+.structure-card:hover {
+  border-color: var(--rose-300);
+}
+
+.structure-card img {
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+}
+
+.structure-card .model-card-body {
+  gap: 0.35rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.structure-card-system {
+  color: var(--rose-600);
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.structure-card-title {
+  font-family: var(--font-title);
+  font-size: 1.16rem;
+  font-weight: 600;
+}
+
+.structure-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 0.35rem;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+}
+
+.structure-card-meta span + span::before {
+  content: '·';
+  margin: 0 0.45rem;
+  color: var(--rose-300);
+}
+
+.structure-card-nopreview {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  background: var(--rose-50);
+}
+
+.atlas-empty {
+  padding: 2rem;
+  color: var(--ink-soft);
+  text-align: center;
+  box-shadow: none !important;
+}
+
+.structure-detail-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.structure-plates {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.structure-plate {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--rose-50);
+}
+
+.structure-plate img {
+  width: 110px;
+  height: 110px;
+  border-radius: 14px;
+  background: #fff;
+  object-fit: contain;
+}
+
+.structure-plate-meta {
+  display: grid;
+  gap: 0.3rem;
+  justify-items: start;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 940px) {
+  .atlas-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas-region-nav {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .atlas-nav-eyebrow,
+  .atlas-3d-note {
+    grid-column: 1 / -1;
+  }
+
+  .atlas-region-button {
+    border: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 720px) {
+  .atlas-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .atlas-region-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .atlas-card-grid,
+  .atlas-region-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas-results-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .structure-plate {
+    grid-template-columns: 1fr;
+  }
+
+  .structure-plate img {
+    width: 100%;
+    height: auto;
+  }
+}

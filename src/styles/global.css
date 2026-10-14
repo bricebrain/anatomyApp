@@ -1,0 +1,648 @@
+/* ============================================================
+   Mon carnet d'anatomie — design « Rose bonbon »
+   Ambiance douce et vivante : fonds rosés animés, dégradés
+   façon stories, cartes en verre dépoli, micro-animations.
+   Cibles tactiles >= 44px (iPad).
+   ============================================================ */
+
+:root {
+  /* Palette rose */
+  --rose-50: #fff6f9;
+  --rose-100: #ffe8f0;
+  --rose-200: #ffd0e1;
+  --rose-300: #ffa9c8;
+  --rose-400: #ff7aab;
+  --rose-500: #f2548f;
+  --rose-600: #d93677;
+  --rose-700: #ad215c;
+  --berry: #5a1e43;
+  --lilac: #b98cff;
+  --lilac-soft: #efe5ff;
+  --peach: #ffb38f;
+  --peach-soft: #ffeadf;
+  --mint: #4cc9a0;
+  --mint-soft: #ddf7ee;
+  --sky: #7ab8ff;
+  --sky-soft: #e3f0ff;
+
+  /* Jetons sémantiques (réutilisés par toutes les pages) */
+  --paper: #fff3f7;
+  --paper-deep: #ffe6ef;
+  --card: #ffffff;
+  --ink: #3b1830;
+  --ink-soft: #7d5470;
+  --ink-faint: #b08aa2;
+  --line: #f6d5e3;
+  --accent: var(--rose-500);
+  --accent-deep: var(--rose-700);
+  --accent-soft: var(--rose-100);
+  --ok: #1f9b74;
+  --danger: #e2395b;
+
+  --grad-insta: linear-gradient(135deg, #ff9a8b 0%, #ff6a9f 38%, #e84cc4 70%, #a879ff 100%);
+  --grad-soft: linear-gradient(135deg, #ffe3ee 0%, #fbe3ff 55%, #ffeadf 100%);
+  --grad-btn: linear-gradient(135deg, #ff7aa8 0%, #f2548f 50%, #d64ab9 100%);
+
+  --shadow: 0 2px 6px rgba(173, 33, 92, 0.06), 0 12px 32px rgba(173, 33, 92, 0.09);
+  --shadow-lg: 0 6px 16px rgba(173, 33, 92, 0.1), 0 26px 60px rgba(173, 33, 92, 0.16);
+  --shadow-pink: 0 10px 28px rgba(242, 84, 143, 0.38);
+  --radius: 22px;
+  --radius-sm: 14px;
+
+  --font-title: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --font-ui: 'Nunito Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--paper) !important;
+  /* Pas de rebond élastique pendant le dessin ; le scroll reste possible
+     dans les conteneurs prévus (listes, bibliothèque). */
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  min-height: 100dvh;
+}
+
+/* Fond vivant : taches de couleur qui dérivent lentement. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+body::before {
+  top: -30vmax;
+  right: -20vmax;
+  background: radial-gradient(circle, #ffc2d9 0%, rgba(255, 194, 217, 0) 65%);
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+
+body::after {
+  bottom: -35vmax;
+  left: -25vmax;
+  background: radial-gradient(circle, #e6d4ff 0%, rgba(230, 212, 255, 0) 65%);
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  to {
+    transform: translate(-12vmax, 14vmax) scale(1.12);
+  }
+}
+
+@keyframes drift-b {
+  to {
+    transform: translate(14vmax, -10vmax) scale(1.15);
+  }
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent-deep);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-title);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+::selection {
+  background: var(--rose-200);
+}
+
+/* Titre en dégradé (utilitaire) */
+.grad-text {
+  background: var(--grad-insta);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Boutons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 48px; /* cible tactile confortable */
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.25s var(--spring), box-shadow 0.2s ease,
+    background 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border-color: var(--rose-300);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--grad-btn);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--shadow-pink);
+}
+
+.btn-primary:hover {
+  border-color: transparent;
+  box-shadow: 0 14px 34px rgba(242, 84, 143, 0.45);
+}
+
+/* Reflet brillant qui traverse les boutons principaux */
+.btn-primary::after,
+.shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: shine 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0%,
+  65% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.btn-danger {
+  color: var(--danger);
+  border-color: #ffc6d1;
+}
+
+.btn-sm {
+  min-height: 44px;
+  padding: 0 1rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- Boutons d'outil (icônes) ---------- */
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  transition: transform 0.25s var(--spring), background 0.2s ease, color 0.2s ease;
+}
+
+.tool-btn:hover {
+  background: var(--rose-50);
+  color: var(--accent-deep);
+}
+
+.tool-btn:active {
+  transform: scale(0.88);
+}
+
+.tool-btn.active {
+  background: var(--grad-btn);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(242, 84, 143, 0.35);
+}
+
+.tool-btn:disabled {
+  opacity: 0.35;
+}
+
+/* Bouton retour rond flottant */
+.back-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Cartes et pages ---------- */
+
+.page {
+  min-height: 100dvh;
+  padding: calc(1.25rem + var(--safe-top)) calc(1.5rem + var(--safe-right))
+    calc(2.5rem + var(--safe-bottom)) calc(1.5rem + var(--safe-left));
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-enter {
+  animation: page-in 0.55s var(--ease-out) backwards;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Apparition en cascade : style="--i: n" */
+.rise {
+  animation: rise 0.7s var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.muted {
+  color: var(--ink-soft);
+}
+
+.faint {
+  color: var(--ink-faint);
+}
+
+/* En-tête de page commun (kicker + titre) */
+.page-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--line);
+  color: var(--rose-600) !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase;
+}
+
+/* ---------- Grilles de cartes ---------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1.1rem;
+}
+
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+/* ---------- Puces (filtres) ---------- */
+
+.chip {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-height: 40px;
+  color: var(--ink-soft);
+  transition: transform 0.25s var(--spring), background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.chip:hover {
+  border-color: var(--rose-300);
+  color: var(--accent-deep);
+}
+
+.chip:active {
+  transform: scale(0.93);
+}
+
+.chip-active,
+.chip-active:hover {
+  background: var(--grad-btn);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(242, 84, 143, 0.3);
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  min-width: 100%;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- Modales ---------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(90, 30, 67, 0.32);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  padding-left: calc(1.25rem + var(--safe-left));
+  padding-right: calc(1.25rem + var(--safe-right));
+  z-index: 60;
+  animation: fade-in 0.25s ease backwards;
+}
+
+.modal {
+  background: var(--card);
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  max-width: 560px;
+  width: 100%;
+  max-height: min(86dvh, 900px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: pop-in 0.45s var(--spring) backwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.94);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--grad-soft);
+}
+
+.modal-body {
+  padding: 1.4rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding: 1rem 1.4rem;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+/* ---------- Badges ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--rose-50);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.badge-ok {
+  background: var(--rose-100);
+  color: var(--rose-700);
+  border-color: var(--rose-200);
+}
+
+.badge-warn {
+  background: var(--peach-soft);
+  color: #b4532a;
+  border-color: #ffd2bd;
+}
+
+/* ---------- Divers ---------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(calc(var(--rot, 0deg) + 2deg));
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+@keyframes heart-pop {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1) rotate(var(--r));
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(7px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Pluie de cœurs (composant Celebrate) */
+.celebrate {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+}
+
+.celebrate span {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  font-size: var(--s);
+  animation: heart-pop 1.1s var(--ease-out) forwards;
+  animation-delay: var(--d);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

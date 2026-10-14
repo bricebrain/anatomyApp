@@ -10,6 +10,9 @@ const Anatomy3DPage = lazy(() => import('../features/anatomy3d/pages/Anatomy3DPa
 const Anatomy3DCatalogPage = lazy(
   () => import('../features/anatomy3d/pages/Anatomy3DCatalogPage'),
 );
+const HumanAtlasPage = lazy(
+  () => import('../features/anatomy/atlas/pages/HumanAtlasPage'),
+);
 
 export default function App() {
   const location = useLocation();
@@ -27,6 +30,7 @@ export default function App() {
         <Route path="/quiz/structure/:structureId" element={<QuizRoute />} />
         <Route path="/modeles3d" element={<Anatomy3DCatalogPage />} />
         <Route path="/modeles3d/:assetId" element={<Viewer3dRoute />} />
+        <Route path="/atlas3d" element={<HumanAtlasPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </div>

@@ -1,0 +1,386 @@
+/* ============================================================
+   Atlas 3D corps entier — même univers « Rose bonbon » que le
+   reste du carnet : cartes blanches, puces roses, scène dégradée.
+   ============================================================ */
+
+.atlas3d-page {
+  max-width: 1480px;
+}
+
+.atlas3d-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 1rem;
+  padding: 1.5rem 0 2rem;
+}
+
+.atlas3d-header .atlas3d-segmented {
+  align-self: center;
+}
+
+.atlas3d-alert {
+  margin-bottom: 1rem;
+}
+
+/* ---------- Segments (corps, vues) ---------- */
+
+.atlas3d-segmented {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.atlas3d-segmented button {
+  min-width: 56px;
+  min-height: 42px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 800;
+  transition: transform 0.25s var(--spring), background 0.2s ease, color 0.2s ease;
+}
+
+.atlas3d-segmented button:hover {
+  color: var(--accent-deep);
+  background: var(--rose-50);
+}
+
+.atlas3d-segmented button:active {
+  transform: scale(0.93);
+}
+
+.atlas3d-segmented button.active {
+  background: var(--grad-btn);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(242, 84, 143, 0.3);
+}
+
+/* ---------- Mise en page ---------- */
+
+.atlas3d-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 280px) minmax(0, 1fr) minmax(250px, 310px);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.atlas3d-sidebar {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1rem;
+  animation: rise 0.6s var(--ease-out) backwards;
+}
+
+.atlas3d-sidebar-right {
+  animation-delay: 160ms;
+}
+
+.atlas3d-panel {
+  padding: 1.1rem;
+  border-radius: 26px;
+}
+
+.atlas3d-eyebrow {
+  margin-bottom: 0.6rem !important;
+  color: var(--ink-soft);
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+}
+
+/* ---------- Recherche ---------- */
+
+.atlas3d-search-results {
+  display: grid;
+  gap: 0.2rem;
+  max-height: 280px;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+.atlas3d-search-results button {
+  display: grid;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.5rem 0.8rem;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  transition: background 150ms ease, transform 0.25s var(--spring);
+}
+
+.atlas3d-search-results button:hover {
+  background: var(--rose-50);
+}
+
+.atlas3d-search-results button:active {
+  transform: scale(0.97);
+}
+
+.atlas3d-search-results button small {
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+}
+
+.atlas3d-search-results button.active {
+  background: var(--grad-btn);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(242, 84, 143, 0.3);
+}
+
+.atlas3d-search-results button.active small {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.atlas3d-empty {
+  padding: 0.9rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+/* ---------- Systèmes ---------- */
+
+.atlas3d-system-list {
+  display: grid;
+  gap: 0.2rem;
+  max-height: calc(100dvh - 520px);
+  min-height: 200px;
+  margin: 0 -0.35rem;
+  overflow: auto;
+}
+
+.atlas3d-system {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.35rem 0.7rem;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: left;
+  transition: background 150ms ease, color 150ms ease, transform 0.25s var(--spring);
+}
+
+.atlas3d-system:hover {
+  background: var(--rose-50);
+}
+
+.atlas3d-system:active {
+  transform: scale(0.96);
+}
+
+.atlas3d-system.active {
+  color: var(--ink);
+}
+
+.atlas3d-system-dot {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--system-color);
+  background: transparent;
+  transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.atlas3d-system.active .atlas3d-system-dot,
+.badge .atlas3d-system-dot {
+  background: var(--system-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--system-color) 22%, transparent);
+}
+
+.atlas3d-system-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.atlas3d-system-count {
+  min-width: 2.2rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--rose-50);
+  color: var(--ink-faint);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.atlas3d-system.active .atlas3d-system-count {
+  background: var(--rose-100);
+  color: var(--rose-700);
+}
+
+/* ---------- Scène ---------- */
+
+.atlas3d-stage-wrap {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.9rem;
+  animation: rise 0.6s var(--ease-out) 80ms backwards;
+}
+
+.atlas3d-stage {
+  position: relative;
+  min-height: 640px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: radial-gradient(circle at 50% 30%, #fffafc 0%, #ffe3ee 62%, #e9d6ff 100%);
+  box-shadow: var(--shadow-lg);
+}
+
+.human-atlas-scene,
+.human-atlas-scene canvas,
+.atlas3d-loading {
+  width: 100%;
+  height: 100%;
+  min-height: 640px;
+}
+
+.human-atlas-scene canvas {
+  display: block;
+}
+
+.atlas3d-loading {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.atlas3d-progress {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.atlas3d-progress .MuiLinearProgress-root {
+  height: 8px;
+  margin-top: 0.5rem;
+  border-radius: 999px;
+  background: var(--rose-100);
+}
+
+.atlas3d-progress .MuiLinearProgress-bar {
+  border-radius: 999px;
+  background: var(--grad-btn);
+}
+
+.atlas3d-view-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.atlas3d-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ---------- Détails ---------- */
+
+.atlas3d-details-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--grad-soft);
+  color: var(--rose-600);
+}
+
+.atlas3d-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+/* ---------- Adaptatif ---------- */
+
+@media (max-width: 1100px) {
+  .atlas3d-layout {
+    grid-template-columns: minmax(220px, 270px) minmax(0, 1fr);
+  }
+
+  .atlas3d-sidebar-right {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .atlas3d-header {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding-top: 1rem;
+  }
+
+  .atlas3d-header .atlas3d-segmented {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .atlas3d-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .atlas3d-sidebar-left {
+    order: 2;
+  }
+
+  .atlas3d-stage-wrap {
+    order: 1;
+  }
+
+  .atlas3d-sidebar-right {
+    order: 3;
+  }
+
+  .atlas3d-stage,
+  .human-atlas-scene,
+  .human-atlas-scene canvas,
+  .atlas3d-loading {
+    min-height: 58dvh;
+  }
+
+  .atlas3d-system-list {
+    max-height: 320px;
+  }
+}

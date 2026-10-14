@@ -255,8 +255,8 @@ function Workshop({ initialProject }: { initialProject: DrawingProject }) {
       <header className="workshop-header">
         <button
           className="tool-btn"
-          onClick={() => navigate('/')}
-          aria-label="Retour à l’accueil"
+          onClick={() => navigate(project.anatomyReference?.returnRoute ?? '/')}
+          aria-label={project.anatomyReference ? 'Revenir à la vue 3D' : 'Retour à l’accueil'}
         >
           <ArrowLeft size={22} />
         </button>

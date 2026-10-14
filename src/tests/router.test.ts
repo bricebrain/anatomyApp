@@ -14,6 +14,7 @@ describe('parseHash', () => {
     expect(parseHash('#/explorer')).toEqual({ name: 'explore' });
     expect(parseHash('#/quiz')).toEqual({ name: 'quiz' });
     expect(parseHash('#/modeles3d')).toEqual({ name: 'viewer3d-catalog' });
+    expect(parseHash('#/atlas3d')).toEqual({ name: 'human-atlas' });
     expect(parseHash('#/quiz/structure/humerus')).toEqual({
       name: 'quiz-structure',
       structureId: 'humerus',

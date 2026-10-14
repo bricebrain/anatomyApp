@@ -74,7 +74,7 @@ export default function HomePage() {
         </div>
         <div className="activity-grid">
           <ActivityCard index={0} title="Explorer le corps" description="Choisir une région et découvrir ses structures." icon={Compass} tone="rose" onClick={() => navigate('/explorer')} />
-          <ActivityCard index={1} title="Voir en 3D" description="Faire tourner le cœur, le crâne, le cerveau ou les poumons." icon={BoxIcon} tone="lilac" onClick={() => navigate('/modeles3d')} />
+          <ActivityCard index={1} title="Explorer en 3D" description="Parcourir un corps complet et sélectionner ses structures." icon={BoxIcon} tone="lilac" onClick={() => navigate('/atlas3d')} />
           <ActivityCard index={2} title="Quiz express" description="Quelques questions pour réviser en t’amusant." icon={GraduationCap} tone="peach" onClick={() => navigate('/quiz')} />
           <ActivityCard index={3} title="Bibliothèque" description="Toutes les planches, prêtes à être dessinées." icon={BookOpen} tone="sky" onClick={() => navigate('/bibliotheque')} />
         </div>

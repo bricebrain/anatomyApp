@@ -5,7 +5,12 @@
  * lien vers la fiche d'origine.
  */
 
-export type AnatomySource = 'commons' | 'servier' | 'local' | 'nih3d-capture';
+export type AnatomySource =
+  | 'commons'
+  | 'servier'
+  | 'local'
+  | 'nih3d-capture'
+  | 'human-atlas-capture';
 
 export type AnatomyCategory = 'heart' | 'skull' | 'brain' | 'bones' | 'muscles' | 'other';
 

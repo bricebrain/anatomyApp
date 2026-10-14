@@ -1,4 +1,5 @@
 import type { Stroke, ViewMode, DrawingToolId } from '../drawing/types';
+import type { AtlasBodyVariant, AtlasCameraSnapshot } from '../anatomy/atlas/types';
 
 /** Type de schéma du cahier des charges §7 (affiné). */
 
@@ -27,9 +28,25 @@ export type DrawingProject = {
   anatomyStructureId?: string;
   /** D'où vient l'image de référence : capture d'une vue 3D, catalogue… */
   modelAssetOrigin?: ModelAssetOrigin;
+  /** Provenance complète d'une capture issue du corps Human-Atlas. */
+  anatomyReference?: DrawingAnatomyReference;
 };
 
 export type ModelAssetOrigin = 'catalog' | 'commons' | 'local-import' | '3d-capture';
+
+export type DrawingAnatomyReference = {
+  kind: 'snapshot-3d';
+  provider: 'human-atlas';
+  assetId: string;
+  selectedStructureIds: string[];
+  bodyVariant: AtlasBodyVariant;
+  snapshotBlobId: string;
+  camera: AtlasCameraSnapshot;
+  appearancePreset: 'pedagogical-opaque';
+  provenanceIds: string[];
+  returnRoute: '/atlas3d';
+  createdAt: string;
+};
 
 export function newProjectId(): string {
   return `p-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;

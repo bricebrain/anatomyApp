@@ -14,7 +14,8 @@ export type Route =
   | { name: 'quiz' }
   | { name: 'quiz-structure'; structureId: string }
   | { name: 'viewer3d-catalog' }
-  | { name: 'viewer3d'; assetId: string };
+  | { name: 'viewer3d'; assetId: string }
+  | { name: 'human-atlas' };
 
 export function parseHash(hash: string): Route {
   const clean = hash.replace(/^#/, '').replace(/\/+$/, '').split('?')[0];
@@ -23,6 +24,7 @@ export function parseHash(hash: string): Route {
   if (clean === '/explorer') return { name: 'explore' };
   if (clean === '/quiz') return { name: 'quiz' };
   if (clean === '/modeles3d') return { name: 'viewer3d-catalog' };
+  if (clean === '/atlas3d') return { name: 'human-atlas' };
   let match = /^\/quiz\/structure\/([^/]+)$/.exec(clean);
   if (match) return { name: 'quiz-structure', structureId: decodeURIComponent(match[1]) };
   match = /^\/modeles3d\/([^/]+)$/.exec(clean);

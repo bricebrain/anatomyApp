@@ -100,6 +100,8 @@ export default function DrawingSurface({
   const activePointers = useRef(new Map<number, { type: string; x: number; y: number }>());
   /** Traits masqués pendant le geste de gomme en cours. */
   const eraseHidden = useRef(new Set<string>());
+  /** Attend la nouvelle version des traits avant de révéler le calque statique. */
+  const pendingEraseCommit = useRef(false);
   const penSeen = useRef(false);
   const sizeRef = useRef({ w: 0, h: 0, dpr: 1 });
   const staticDirty = useRef(true);
@@ -167,6 +169,10 @@ export default function DrawingSurface({
   }, [renderStatic, renderLive]);
 
   useEffect(() => {
+    if (pendingEraseCommit.current) {
+      eraseHidden.current = new Set();
+      pendingEraseCommit.current = false;
+    }
     staticDirty.current = true;
     requestRender();
   }, [strokesVersion, cameraVersion, model, requestRender]);
@@ -185,12 +191,16 @@ export default function DrawingSurface({
     const w = Math.max(1, Math.round(rect.width));
     const h = Math.max(1, Math.round(rect.height));
     sizeRef.current = { w, h, dpr };
+    const pixelWidth = Math.round(w * dpr);
+    const pixelHeight = Math.round(h * dpr);
     for (const c of [staticRef.current, liveRef.current]) {
       if (!c) continue;
-      c.width = Math.round(w * dpr);
-      c.height = Math.round(h * dpr);
-      c.style.width = `${w}px`;
-      c.style.height = `${h}px`;
+      // Réassigner width/height efface le bitmap, même si la valeur ne change
+      // pas. Sur pointerup, cela produisait un flash avant le rendu suivant.
+      if (c.width !== pixelWidth) c.width = pixelWidth;
+      if (c.height !== pixelHeight) c.height = pixelHeight;
+      if (c.style.width !== `${w}px`) c.style.width = `${w}px`;
+      if (c.style.height !== `${h}px`) c.style.height = `${h}px`;
     }
     staticDirty.current = true;
     requestRender();
@@ -435,13 +445,28 @@ export default function DrawingSurface({
 
     if (it.kind === 'draw') {
       if (it.stroke.points.length > 0) {
+        // Transfère immédiatement le trait sur le calque statique. Le calque
+        // vif peut ainsi être effacé sans frame intermédiaire vide.
+        if (staticDirty.current) {
+          staticDirty.current = false;
+          renderStatic();
+        }
+        const staticCanvas = staticRef.current;
+        const staticContext = staticCanvas?.getContext('2d');
+        if (staticContext) {
+          drawStroke(staticContext, it.stroke, cameraRef.current, sizeRef.current.dpr);
+        }
         onCommitStroke(it.stroke);
       }
     } else if (it.kind === 'erase') {
       if (it.erased.length > 0) {
+        // Garde les traits masqués jusqu'à ce que la version persistée arrive,
+        // sinon ils réapparaissent brièvement au relâchement de la gomme.
+        pendingEraseCommit.current = true;
         onEraseStrokes(it.erased);
+      } else {
+        eraseHidden.current = new Set();
       }
-      eraseHidden.current = new Set();
       staticDirty.current = true;
     }
     interaction.current = { kind: 'none' };

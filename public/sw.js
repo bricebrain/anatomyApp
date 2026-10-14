@@ -40,7 +40,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.pathname.endsWith('.glb')) return;
+  // Les modèles 3D volumineux ne sont jamais mis en cache implicitement.
+  if (url.pathname.endsWith('.glb') || url.pathname.startsWith('/models/')) return;
 
   event.respondWith(
     caches.match(request).then((cached) => {

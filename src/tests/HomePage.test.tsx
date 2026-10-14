@@ -21,7 +21,7 @@ describe('HomePage', () => {
     expect(
       screen.getByRole('button', { name: /Bibliothèque/i }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Voir en 3D/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Explorer en 3D/i })).toBeInTheDocument();
     // Les modèles suggérés sont des planches réelles de la sélection locale.
     expect(await screen.findByText('Cœur et gros vaisseaux (vue de face)')).toBeInTheDocument();
     expect(screen.getByText('Crâne (vue de face)')).toBeInTheDocument();

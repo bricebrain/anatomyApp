@@ -4,3 +4,7 @@ dist/
 .netlify/
 coverage/
 *.log
+.zcode/
+
+# Clone de travail du dépôt amont Human-Atlas (audit Phase 0, cf. docs/)
+vendor/
